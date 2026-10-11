@@ -1,0 +1,5 @@
+City Diagnostics Lab
+Date: 09/07/2026
+Patient: Test Patient (synthetic)
+Hemoglobin 11.2 g/dL
+Sodium 138 mmol/L
