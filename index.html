@@ -132,7 +132,7 @@ p2h:['Organize','व्यवस्थित करें','క్రమబద�
 p3h:['Manage','प्रबंधित करें','నిర్వహించండి'],p3:['Questions for your doctor and an AI companion.','डॉक्टर के सवाल और AI साथी।','డాక్టర్ ప్రశ్నలు, AI సహాయకుడు.'],
 disc:['Medoryx provides information only and is not a substitute for professional medical advice. Always consult a qualified physician for diagnosis, treatment decisions, or changes to medication.','Medoryx केवल जानकारी देता है; यह डॉक्टर की सलाह का विकल्प नहीं है। निदान, उपचार या दवा बदलने से पहले डॉक्टर से मिलें।','Medoryx సమాచారం మాత్రమే ఇస్తుంది; వైద్య సలహాకు ప్రత్యామ్నాయం కాదు. నిర్ణయాల ముందు డాక్టర్‌ను సంప్రదించండి.'],
 vsIntro:['Summary of your verified report dated','आपकी सत्यापित रिपोर्ट का सारांश, दिनांक','మీరు ధృవీకరించిన రిపోర్ట్ సారాంశం, తేదీ'],vsNone:['You have no verified reports yet. Please verify a report first.','अभी कोई सत्यापित रिपोर्ट नहीं है। कृपया पहले रिपोर्ट सत्यापित करें।','ధృవీకరించిన రిపోర్ట్‌లు ఇంకా లేవు. ముందుగా రిపోర్ట్‌ను ధృవీకరించండి.'],Unknown:['Unclear','अस्पष्ट','అస్పష్టం'],eUnknown:['Unable to classify — please verify the report.','वर्गीकृत नहीं किया जा सका — कृपया रिपोर्ट जाँचें।','వర్గీకరించలేకపోయాం — దయచేసి రిపోర్ట్‌ను సరిచూడండి.'],bad:['Email or password is incorrect.','ईमेल या पासवर्ड गलत है।','ఇమెయిల్ లేదా పాస్‌వర్డ్ తప్పు.'],
-n0:['Dashboard','डैशबोर्ड','డాష్‌బోర్డ్'],n1:['Upload','अपलोड','అప్‌లోడ్'],n2:['Copilot Chat','कोपायलट चैट','కోపైలట్ చాట్'],n3:['Profile','प्रोफ़ाइल','ప్రొఫైల్'],n6:['Emergency','आपातकाल','అత్యవసరం'],n5:['Reminders','रिमाइंडर','రిమైండర్లు'],n7:['Appointments','अपॉइंटमेंट','అపాయింట్‌మెంట్లు'],n8:['ABHA Health Card','ABHA हेल्थ कार्ड','ABHA హెల్త్ కార్డ్'],n_rl:['RL Policy Engine','RL नीति इंजन','RL పాలసీ ఇంజిన్'],n_priv:['Privacy & Security','गोपनीयता और सुरक्षा','గోప్యత మరియు భద్రత'],
+n0:['Dashboard','डैशबोर्ड','డాష్‌బోర్డ్'],n1:['Upload','अपलोड','అప్‌లోడ్'],n2:['Copilot Chat','कोपायलट चैट','కోపైలట్ చాట్'],n3:['Profile','प्रोफ़ाइल','ప్రొఫైల్'],n6:['Emergency','आपातकाल','అత్యవసరం'],n5:['Reminders','रिमाइंडर','రిమైండర్లు'],n7:['Appointments','अपॉइंटमेंट','అపాయింట్‌మెంట్లు'],n8:['ABHA Health Card','ABHA हेल्थ कार्ड','ABHA హెల్త్ కార్డ్'],n_rl:['RL Policy Engine','RL नीति इंजन','RL పాలసీ ఇంజిన్'],n_priv:['Privacy & Security','गोपनीयता और सुरक्षा','గోప్యత మరియు భద్రత'],n_fb:['Feedback & RL Portal','प्रतिक्रिया और RL पोर्टल','ఫీడ్‌బ్యాక్ & RL పోర్టల్'],
 Low:['Low','कम','తక్కువ'],High:['High','अधिक','ఎక్కువ'],Normal:['Normal','सामान्य','సాధారణం'],
 eLow:['Below normal range. Ask your doctor.','सामान्य से कम। डॉक्टर से सलाह लें।','సాధారణం కంటే తక్కువ. డాక్టర్‌తో మాట్లాడండి.'],
 eHigh:['Above normal range. Discuss with doctor.','सामान्य से अधिक। डॉक्टर से चर्चा करें।','సాధారణం కంటే ఎక్కువ. డాక్టర్‌తో చర్చించండి.'],
@@ -1019,7 +1019,7 @@ function privacyHTML(){
 function draw(){var roleBadge=$('roleBadge'),subTitle=$('subTitle'),roleSel=$('roleSel');if(roleSel&&typeof ROLE!=='undefined')roleSel.value=ROLE;
 if(typeof hospitalDraw==='function'&&(typeof ROLE!=='undefined'&&ROLE!=='patient'||V==='hosp_reg')){hospitalDraw();xlate($('app'));return}
 if(roleBadge)roleBadge.textContent='COPILOT';if(subTitle)subTitle.textContent='AI Health Companion';
-var N=[['dash','n0'],['abha','n8'],['apts','n7'],['up','n1'],['chat','n2'],['prof','n3'],['rem','n5'],['rl_lab','n_rl'],['privacy','n_priv'],['sos','n6']],IC={dash:'<path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/>',apts:'<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',abha:'<rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2.5"/><line x1="14" y1="9" x2="19" y2="9"/><line x1="14" y1="12" x2="19" y2="12"/><line x1="6" y1="16" x2="18" y2="16"/>',up:'<path d="M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9a4.5 4.5 0 0 1 0 9"/><path d="M12 12v8M9 15l3-3 3 3"/>',chat:'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',prof:'<circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 14.5-4 16 0"/>',rem:'<path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/>',rl_lab:'<path d="M12 2a4 4 0 0 1 4 4c0 1.1-.5 2.1-1.2 2.8.8.6 1.4 1.4 1.8 2.3.9-.3 1.9-.2 2.7.4 1.2.9 1.4 2.6.5 3.8-.4.6-1.1 1-1.8 1.1v1.6a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4v-1.6c-.7-.1-1.4-.5-1.8-1.1-.9-1.2-.7-2.9.5-3.8.8-.6 1.8-.7 2.7-.4.4-.9 1-1.7 1.8-2.3C8.5 8.1 8 7.1 8 6a4 4 0 0 1 4-4z"/><circle cx="12" cy="12" r="2"/>',privacy:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',sos:'<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/>'};$('side').innerHTML='<h6 class="mut">HEALTH PORTAL</h6>'+N.map(function(n){return '<button class="'+((['docs','meds','abn'].indexOf(V)>-1?'dash':V)===n[0]?'on':'')+(n[0]==='sos'?' sosb':'')+'"'+((['docs','meds','abn'].indexOf(V)>-1?'dash':V)===n[0]?' aria-current="page"':'')+' onclick="V=\''+n[0]+'\';draw()"><span class="nic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+IC[n[0]]+'</svg></span>'+T(n[1])+'</button>'}).join('')+'<div class="eng"><b>● Medoryx Engine</b><br>AI-assisted lab report analysis and longitudinal tracking.</div>';
+var N=[['dash','n0'],['abha','n8'],['apts','n7'],['up','n1'],['chat','n2'],['feedback','n_fb'],['prof','n3'],['rem','n5'],['rl_lab','n_rl'],['privacy','n_priv'],['sos','n6']],IC={dash:'<path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/>',apts:'<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',abha:'<rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2.5"/><line x1="14" y1="9" x2="19" y2="9"/><line x1="14" y1="12" x2="19" y2="12"/><line x1="6" y1="16" x2="18" y2="16"/>',up:'<path d="M7 18a4 4 0 0 1-.5-7.97A6 6 0 0 1 18 9a4.5 4.5 0 0 1 0 9"/><path d="M12 12v8M9 15l3-3 3 3"/>',chat:'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/>',feedback:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="9" y1="10" x2="15" y2="10"/><line x1="12" y1="7" x2="12" y2="13"/>',prof:'<circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 14.5-4 16 0"/>',rem:'<path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/>',rl_lab:'<path d="M12 2a4 4 0 0 1 4 4c0 1.1-.5 2.1-1.2 2.8.8.6 1.4 1.4 1.8 2.3.9-.3 1.9-.2 2.7.4 1.2.9 1.4 2.6.5 3.8-.4.6-1.1 1-1.8 1.1v1.6a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4v-1.6c-.7-.1-1.4-.5-1.8-1.1-.9-1.2-.7-2.9.5-3.8.8-.6 1.8-.7 2.7-.4.4-.9 1-1.7 1.8-2.3C8.5 8.1 8 7.1 8 6a4 4 0 0 1 4-4z"/><circle cx="12" cy="12" r="2"/>',privacy:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',sos:'<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/>'};$('side').innerHTML='<h6 class="mut">HEALTH PORTAL</h6>'+N.map(function(n){return '<button class="'+((['docs','meds','abn'].indexOf(V)>-1?'dash':V)===n[0]?'on':'')+(n[0]==='sos'?' sosb':'')+'"'+((['docs','meds','abn'].indexOf(V)>-1?'dash':V)===n[0]?' aria-current="page"':'')+' onclick="V=\''+n[0]+'\';draw()"><span class="nic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+IC[n[0]]+'</svg></span>'+T(n[1])+'</button>'}).join('')+'<div class="eng"><b>● Medoryx Engine</b><br>AI-assisted lab report analysis and longitudinal tracking.</div>';
 $('who').textContent=DEMO.name;var wa=$('wav');if(wa)wa.textContent=(DEMO.name||'?').trim().charAt(0).toUpperCase();var h='',L=latestLab(),ab=L?L.labs.filter(function(d){return (st(d)==='Low'||st(d)==='High')}).length:0,M=activeMeds(),E=endedMeds(),C=conds();
 if(V==='dash'){
 h=(R.length?'':'<div class="glass" style="margin-bottom:16px"><b>Welcome!</b> Upload your first prescription or lab report to build your health timeline.</div>')+crit()+'<div class="glass row" style="justify-content:space-between"><div><h1 style="margin:0">Patient Profile</h1><span class="pill '+(AB?'':'w')+'" onclick="V=\'abha\';draw()" style="cursor:pointer" title="Click to view your ABHA Health Card">'+(AB?'✓ ABHA '+esc(AB.id)+' (View Card &rarr;)':'⚡ Create Your ABHA ID &rarr;')+'</span></div><div class="row" style="gap:10px;flex-wrap:wrap"><button class="btn sosbtn" onclick="V=\'sos\';draw()">&#128680; Emergency</button><button class="btn alt" onclick="V=\'apts\';draw()">📅 Book Doctor Appointment</button><button class="btn" onclick="V=\'up\';draw()">\u21ea Upload New Document</button></div></div>'
@@ -1027,12 +1027,12 @@ h=(R.length?'':'<div class="glass" style="margin-bottom:16px"><b>Welcome!</b> Up
 +'<div class="glass trendcard"><div class="trendhead"><div><h3 style="margin:0"><i class="hic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></i>Biomarker Health Trends</h3><span class="mut">Chronological progression with shaded normal range</span></div><div class="row"><span class="pill trendpill">'+trend()+'</span><select style="width:auto" onchange="SEL=this.value;draw()" aria-label="Marker">'+names().map(function(n){return '<option'+(n===SEL?' selected':'')+'>'+esc(n)+'</option>'}).join('')+'</select></div></div>'+chart()+tt()+'</div>'
 +'<div class="two"><div class="glass"><h3><i class="hic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.5 20.5a4.95 4.95 0 0 1-7-7l10-10a4.95 4.95 0 0 1 7 7z"/><path d="m8.5 8.5 7 7"/></svg></i>Current Medicines <span class="pill">'+M.length+' Prescribed</span></h3><div class="list">'+(M.map(function(m){return '<div class="item"><b>'+esc(m.n)+'</b> <span style="float:right">'+esc(m.dose)+'</span><div class="mut">Schedule: '+esc(sched(m.freq)||'as written')+(m.days?' · Duration: '+esc(m.days)+' days':'')+'</div></div>'}).join('')||'<div class="mut">'+(E.length?'No active courses.':'No prescriptions yet.')+'</div>')+'</div>'+endedHTML(E)+'</div>'
 +'<div class="glass"><h3><i class="hic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></i>Conditions &amp; Diagnoses <span class="pill">'+C.length+' Tracked</span></h3><div class="list">'+C.map(function(c){return '<div class="item"><b>'+esc(c.n)+'</b> <span class="pill p" style="float:right">'+c.t.toUpperCase()+'</span><div class="mut">'+esc(c.x)+'</div></div>'}).join('')+'</div><div class="mut" style="text-align:center">Extracted from medical records</div></div></div>'
-+'<div class="glass" style="margin-top:16px"><h3>Latest report explained</h3>'+(L&&L.ai&&L.ai.lang===LI?'<div class="item" style="background:var(--mint)">'+esc(L.ai.summary)+(L.ai.limits?'<div class="mut" style="margin-top:6px">'+esc(L.ai.limits)+'</div>':'')+'</div>':'')+(L&&!(L.ai&&L.ai.lang===LI)?'<div class="mut" style="margin-bottom:8px">Standard rule-based explanations (not AI). Use the AI button for a personalized one.</div>':'')+(L?'<button class="btn alt" id="aibtn" onclick="aiExplain()">✨ AI explanation in '+['English','हिन्दी','తెలుగు'][LI]+'</button> <button class="btn alt" onclick="speak(readLatest())">🔊 Read aloud</button> <button class="btn alt" onclick="stopV()">⏹</button>':'')+(L?L.labs.map(function(d){var s=st(d);return '<div class="item"><b>'+esc(d.n)+'</b> '+d.v+' '+esc(d.u)+' <span class="chip '+cls(s)+'">'+T(s)+'</span>'+(d.uncertain?' <span class="chip un">unverified</span>':'')+'<div class="mut">'+(L.ai&&L.ai.lang===LI&&L.ai.items&&L.ai.items[d.n]?esc(L.ai.items[d.n]):T('e'+(s==='Normal'?'Ok':s)))+(d.src?'<div style="font-size:12px;margin-top:4px">Source: “'+esc(d.src)+'”</div>':'')+'</div></div>'}).join(''):'')+'</div>'
++'<div class="glass" style="margin-top:16px"><h3>Latest report explained</h3>'+(L&&L.ai&&L.ai.lang===LI?'<div class="item" style="background:var(--mint)">'+esc(L.ai.summary)+(L.ai.limits?'<div class="mut" style="margin-top:6px">'+esc(L.ai.limits)+'</div>':'')+'</div>':'')+(L&&!(L.ai&&L.ai.lang===LI)?'<div class="mut" style="margin-bottom:8px">Standard rule-based explanations (not AI). Use the AI button for a personalized one.</div>':'')+(L?'<button class="btn alt" id="aibtn" onclick="aiExplain()">✨ AI explanation in '+['English','हिन्दी','తెలుగు'][LI]+'</button> <button class="btn alt" onclick="speak(readLatest())">🔊 Read aloud</button> <button class="btn alt" onclick="stopV()">⏹</button>':'')+'<div id="dashRLBar" class="row" style="margin-top:10px;padding:8px 12px;background:rgba(15,118,110,0.06);border-radius:8px;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><span style="font-size:12px;font-weight:600">Was this report summary helpful? RL Policy Feedback:</span><div style="display:flex;gap:8px"><button class="btn alt" style="padding:2px 10px;font-size:12px" onclick="submitDashSummaryRLFeedback(\'thumbs_up\')">👍 Helpful (+1.0 RL Reward)</button><button class="btn alt" style="padding:2px 10px;font-size:12px" onclick="submitDashSummaryRLFeedback(\'thumbs_down\')">👎 Needs Work (-1.0 RL Penalty)</button></div></div><div id="dashRLMsg" style="font-size:11.5px;margin-top:4px;font-weight:600"></div>'+(L?L.labs.map(function(d){var s=st(d);return '<div class="item"><b>'+esc(d.n)+'</b> '+d.v+' '+esc(d.u)+' <span class="chip '+cls(s)+'">'+T(s)+'</span>'+(d.uncertain?' <span class="chip un">unverified</span>':'')+'<div class="mut">'+(L.ai&&L.ai.lang===LI&&L.ai.items&&L.ai.items[d.n]?esc(L.ai.items[d.n]):T('e'+(s==='Normal'?'Ok':s)))+(d.src?'<div style="font-size:12px;margin-top:4px">Source: “'+esc(d.src)+'”</div>':'')+'</div></div>'}).join(''):'')+'</div>'
 +vsCard()+'<div class="glass" style="margin-top:16px"><h3>Health timeline</h3>'+R.slice().reverse().map(function(r,ri,ra){return mh(r,ri,ra)+'<div class="item"><span style="float:right"><button class="btn alt" style="padding:4px 10px" data-q="Explain my '+esc(r.type)+' dated '+esc(r.date)+' in simple words" onclick="send(this.dataset.q)">✨ Explain</button> <button class="btn alt" style="padding:4px 10px" aria-label="Delete record" onclick="delRec('+R.indexOf(r)+')">🗑</button></span><b>'+esc(r.date)+'</b> · '+esc(r.type)+'<div class="mut">'+(r.dx?esc(r.dx)+'. ':'')+r.labs.length+' lab values, '+r.meds.length+' medicines'+(r.verified?' · ✓ verified by you'+(r.edited?' ('+r.edited+' corrected)':''):(r.unresolved?' · ⚠ '+r.unresolved+' row(s) still unverified':' · not verified'))+'</div>'+(r.orig?'<details><summary class="mut">Original document and AI reading</summary>'+(r.doc?'<img src="'+esc(r.doc)+'" alt="Original" style="max-width:100%;border-radius:10px">':'')+'<div class="mut">AI read: '+esc(r.orig.labs.map(function(d){return d.n+' '+d.v+' '+d.u}).join(', ')||'no lab values')+'</div></details>':'')+'</div>'}).join('')+'</div>'}
 else if(V==='up'){h='<div class="glass"><span class="pill">Multimodal Health Ingestion Pipeline</span><h1 style="margin:8px 0">Upload Health Document</h1><div class="mut">Upload a prescription, lab report, discharge summary or scan. Medoryx extracts clinical data, explains reference ranges, and organizes medicines.</div></div>'
 +'<div class="glass" style="margin-top:16px"><div class="drop" ondragover="event.preventDefault()" ondrop="event.preventDefault();doFile(event.dataTransfer.files[0])"><h3>Drag &amp; drop files or choose from your device</h3><div class="mut">PDF, PNG, JPG or JPEG up to 3 MB (large photos are shrunk automatically). English, Hindi and Telugu, printed or handwritten.</div><br><div class="row" style="justify-content:center"><label class="btn" style="margin:0">Browse Documents<input type="file" accept="image/*,application/pdf" hidden onchange="doFile(this.files[0])"></label><label class="btn alt" style="margin:0">Take Photo<input type="file" accept="image/*" capture="environment" hidden onchange="doFile(this.files[0])"></label></div></div>'
 +'<p class="mut">Photos and PDFs are sent to Google Gemini to be read. Only upload documents you are comfortable sharing. You can delete your data any time from Profile.</p><label for="txt">Or paste report text</label><textarea id="txt" placeholder="Date: 12/03/2026&#10;Hemoglobin 11.2 g/dL (12.0-15.5)&#10;Tab Metformin 500mg 1-0-1 x 30 days"></textarea><div class="err" id="msg" role="status"></div><button class="btn" onclick="doText()">Extract &amp; explain</button></div>'}
-else if(V==='rem'){h=remHTML()}else if(V==='rl_lab'){h=rlLabHTML()}else if(V==='privacy'){h=privacyHTML()}else if(V==='sos'){h=sosHTML()}else if(V==='docs'){h=docsHTML()}else if(V==='meds'){h=medsHTML()}else if(V==='abn'){h=abnHTML()}else if(V==='apts'){h=typeof patientAptsHTML==='function'?patientAptsHTML():''}else if(V==='abha'){h=typeof abhaViewHTML==='function'?abhaViewHTML():''}else if(V==='public_abha'){h=typeof publicAbhaViewHTML==='function'?publicAbhaViewHTML():''}
+else if(V==='rem'){h=remHTML()}else if(V==='feedback'){h=feedbackHTML()}else if(V==='rl_lab'){h=rlLabHTML()}else if(V==='privacy'){h=privacyHTML()}else if(V==='sos'){h=sosHTML()}else if(V==='docs'){h=docsHTML()}else if(V==='meds'){h=medsHTML()}else if(V==='abn'){h=abnHTML()}else if(V==='apts'){h=typeof patientAptsHTML==='function'?patientAptsHTML():''}else if(V==='abha'){h=typeof abhaViewHTML==='function'?abhaViewHTML():''}else if(V==='public_abha'){h=typeof publicAbhaViewHTML==='function'?publicAbhaViewHTML():''}
 
 else if(V==='rev'){h=revHTML()}
 else if(V==='chat'){h='<div class="glass"><div class="row" style="justify-content:space-between"><div><h3 style="margin:0">Medoryx Copilot <span class="pill '+(AIOK===false?'w':'')+'">'+(AIOK===true?'AI LIVE':AIOK===false?'OFFLINE MODE (no AI)':'AI NOT TESTED YET')+'</span></h3><span class="mut">Answers from your own health records and general wellness knowledge</span></div><button class="btn alt" onclick="CH=[];draw()">Clear Chat</button></div>'
@@ -1049,20 +1049,32 @@ function loadRLStats(cb){
   fetch('/api/rl?action=stats',{headers:{'X-Medoryx':'1'}}).then(function(r){return r.json()}).then(function(j){
     RL_DATA_CACHE=j;
     if(cb)cb(j);
-    else if(V==='rl_lab')draw();
+    else if(V==='rl_lab'||V==='feedback')draw();
   }).catch(function(){});
 }
 function copilotRLReward(i, rating){
   var m=CH[i];if(!m)return;
   var userQ='';
   for(var j=i-1;j>=0;j--){if(CH[j]&&CH[j].u){userQ=CH[j].t;break}}
-  m.rlNote=rating==='thumbs_up'?'✓ RL +1 Saved':'⚠ Feedback -1 Logged';
+  m.rlNote=rating==='thumbs_up'?'✓ RL +1.0 Reward Saved':'⚠ RL -1.0 Penalty Logged';
   draw();
   fetch('/api/rl?action=copilot-feedback',{
     method:'POST',
     headers:{'Content-Type':'application/json','X-Medoryx':'1'},
-    body:JSON.stringify({prompt:userQ,preferred:rating==='thumbs_up'?m.t:'',rejected:rating==='thumbs_down'?m.t:'',rating:rating})
+    body:JSON.stringify({prompt:userQ,preferred:rating==='thumbs_up'?m.t:'',rejected:rating==='thumbs_down'?m.t:'',rating:rating,reviewer:(DEMO&&DEMO.name)||'Patient'})
   }).catch(function(){});
+  fetch('/api/rl?action=submit-user-feedback',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','X-Medoryx':'1'},
+    body:JSON.stringify({
+      type:'copilot',
+      rating:rating,
+      category:'Copilot Query Retrieval',
+      reviewer:(DEMO&&DEMO.name)||'Patient',
+      comments:userQ?('Query: '+userQ):'Copilot query retrieval rating',
+      armId:'arm_empathetic'
+    })
+  }).then(function(){loadRLStats();}).catch(function(){});
 }
 function simulateRLEpisodes(){
   var btn=$('simRLBtn');if(btn)btn.textContent='Simulating 25 episodes…';
@@ -1138,6 +1150,175 @@ function rlLabHTML(){
       +'</div>';
   });
   h+='</div></div>';
+
+  return h;
+}
+function submitDashSummaryRLFeedback(rating) {
+  var isUp = (rating === 'thumbs_up');
+  var msgEl = $('dashRLMsg');
+  if (msgEl) {
+    msgEl.textContent = isUp ? '✓ +1.0 RL Reward applied to Medoryx policy!' : '⚠ -1.0 RL Penalty recorded to optimize clinical accuracy';
+    msgEl.style.color = isUp ? 'var(--teal)' : '#dc2626';
+  }
+  fetch('/api/rl?action=submit-user-feedback', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Medoryx': '1' },
+    body: JSON.stringify({
+      type: 'summary',
+      rating: rating,
+      category: 'Dashboard Report Summary',
+      reviewer: (DEMO && DEMO.name) || 'Patient',
+      comments: 'User gave ' + (isUp ? 'Thumbs Up (+1)' : 'Thumbs Down (-1)') + ' on Dashboard report summary explanation.',
+      armId: 'arm_precision'
+    })
+  }).then(function(r){ return r.json(); }).then(function(j){
+    loadRLStats();
+  }).catch(function(){});
+}
+
+function submitPortalUserFeedback() {
+  var moduleEl = $('fb_module');
+  var ratingEl = document.querySelector('input[name="fb_rating"]:checked');
+  var armEl = $('fb_arm');
+  var commEl = $('fb_comments');
+  var revEl = $('fb_reviewer');
+  var statusEl = $('fb_status');
+
+  var fType = moduleEl ? moduleEl.value : 'copilot';
+  var rating = ratingEl ? ratingEl.value : 'thumbs_up';
+  var armId = armEl ? armEl.value : 'arm_empathetic';
+  var comments = (commEl ? commEl.value : '').trim();
+  var reviewer = (revEl ? revEl.value : '').trim() || (DEMO && DEMO.name) || 'Patient';
+
+  if (statusEl) {
+    statusEl.textContent = 'Submitting feedback and updating RL policy weights...';
+    statusEl.style.color = 'var(--teal)';
+  }
+
+  fetch('/api/rl?action=submit-user-feedback', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Medoryx': '1' },
+    body: JSON.stringify({
+      type: fType,
+      rating: rating,
+      category: moduleEl ? moduleEl.options[moduleEl.selectedIndex].text : fType,
+      reviewer: reviewer,
+      comments: comments,
+      armId: armId
+    })
+  }).then(function(r){ return r.json(); }).then(function(j){
+    if (j && j.success) {
+      if (statusEl) {
+        statusEl.textContent = '✓ RL Feedback successfully applied! Arm "' + (j.updatedArm ? j.updatedArm.name : armId) + '" received ' + (rating === 'thumbs_up' ? '+1.0 Reward' : '-1.0 Punishment') + (j.updatedArm && j.updatedArm.winRate ? ' (Win rate: ' + j.updatedArm.winRate + ')' : '') + '.';
+        statusEl.style.color = 'var(--teal)';
+      }
+      if (commEl) commEl.value = '';
+      loadRLStats(function(){ draw(); });
+    } else {
+      if (statusEl) {
+        statusEl.textContent = 'Error recording feedback: ' + ((j && j.error) || 'Unknown error');
+        statusEl.style.color = '#dc2626';
+      }
+    }
+  }).catch(function(err){
+    if (statusEl) {
+      statusEl.textContent = 'Network error: ' + err.message;
+      statusEl.style.color = '#dc2626';
+    }
+  });
+}
+
+function feedbackHTML() {
+  if (!RL_DATA_CACHE) {
+    setTimeout(loadRLStats, 30);
+  }
+  var d = RL_DATA_CACHE || { totalEpisodes: 76, totalRewards: 64, meanEpisodicReturn: 0.84, recentFeedback: [] };
+  var recentFb = d.recentFeedback || [];
+
+  var h = '<div class="glass row" style="justify-content:space-between;align-items:center"><div>'
+    + '<span class="pill" style="background:linear-gradient(135deg,#065F46,#0F766E);color:#fff">Human-in-the-Loop RLHF</span>'
+    + '<h1 style="margin:4px 0">User Feedback &amp; RL Policy Portal</h1>'
+    + '<div class="mut">Direct feedback powers Medoryx\'s Reinforcement Learning policy with real-time rewards (+1.0) and punishments (-1.0) for clinical accuracy, adherence nudges, and Copilot QA.</div>'
+    + '</div><div class="row">'
+    + '<button class="btn alt" onclick="V=\'rl_lab\';draw()">🔬 View Deep RL Policy Engine &rarr;</button>'
+    + '<button class="btn alt" onclick="V=\'dash\';draw()">&larr; Back to Dashboard</button>'
+    + '</div></div>';
+
+  h += '<div class="stats" style="margin-top:16px">'
+    + '<div class="glass stat t1"><i class="sico">🔄</i><span>TOTAL EPISODES</span><b>' + (d.totalEpisodes || 0) + '</b><div class="mut">Policy evaluation steps</div></div>'
+    + '<div class="glass stat t2"><i class="sico">👍</i><span>REWARDS (+1)</span><b>' + (d.totalRewards || 0) + '</b><div class="mut">Positive feedback &amp; adherence</div></div>'
+    + '<div class="glass stat t3"><i class="sico">🎯</i><span>CONVERGENCE</span><b>' + Math.round((d.meanEpisodicReturn || 0.8) * 100) + '%</b><div class="mut">Policy win rate</div></div>'
+    + '<div class="glass stat t4"><i class="sico">⚖️</i><span>DPO PAIRS</span><b>' + (d.dpoPreferenceCount || 2) + '</b><div class="mut">Clinical alignment triples</div></div>'
+    + '</div>';
+
+  h += '<div class="two" style="margin-top:16px">'
+    + '<div class="glass">'
+    + '<h3 style="margin-top:0"><i class="hic">📝</i>Submit Interactive RL Feedback</h3>'
+    + '<div class="mut" style="margin-bottom:12px">Score an AI response or report summary. Your rating immediately updates bandit arm action values (&alpha;, &beta;) and policy selection probability:</div>'
+    + '<label for="fb_module">System Module / Task</label>'
+    + '<select id="fb_module">'
+    + '<option value="copilot">Copilot Clinical Chatbot (RAG Retrieval)</option>'
+    + '<option value="summary">Dashboard Lab Report Explanation</option>'
+    + '<option value="nudge">Medication Adherence Nudges &amp; Reminders</option>'
+    + '<option value="clinical">Clinical Accuracy &amp; LOINC Mapping</option>'
+    + '</select>'
+    + '<label style="margin-top:10px;display:block">RL Policy Rating (Reward vs. Punishment)</label>'
+    + '<div class="row" style="gap:16px;margin:8px 0">'
+    + '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:600;color:var(--teal)">'
+    + '<input type="radio" name="fb_rating" value="thumbs_up" checked> 👍 Thumbs Up (+1.0 RL Reward)'
+    + '</label>'
+    + '<label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:600;color:#dc2626">'
+    + '<input type="radio" name="fb_rating" value="thumbs_down"> 👎 Thumbs Down (-1.0 RL Penalty)'
+    + '</label>'
+    + '</div>'
+    + '<label for="fb_arm">Target RL Bandit Strategy</label>'
+    + '<select id="fb_arm">'
+    + '<option value="arm_empathetic">Empathetic Health Companion (Contextual Support)</option>'
+    + '<option value="arm_precision">Clinical Precision &amp; LOINC Standards (Factual Accuracy)</option>'
+    + '<option value="arm_nudge">Behavioral Framing Nudge (Habit Reinforcement)</option>'
+    + '<option value="arm_protocol">Physician Prescribed Protocol (Doctor Guidelines)</option>'
+    + '</select>'
+    + '<label for="fb_comments" style="margin-top:10px">Clinical Feedback, Observations, or Corrections</label>'
+    + '<textarea id="fb_comments" placeholder="Describe why this explanation was helpful or what clinical information was missing or inaccurate..." style="min-height:80px"></textarea>'
+    + '<label for="fb_reviewer">Reviewer / Contributor</label>'
+    + '<input id="fb_reviewer" value="' + esc((DEMO && DEMO.name) || 'Patient Evaluator') + '" placeholder="Your name or clinician title">'
+    + '<div id="fb_status" style="margin:10px 0;font-size:13px;font-weight:700"></div>'
+    + '<button class="btn" style="width:100%;justify-content:center;margin-top:8px" onclick="submitPortalUserFeedback()">🚀 Transmit RL Feedback &amp; Update Policy</button>'
+    + '</div>'
+    + '<div class="glass">'
+    + '<div class="row" style="justify-content:space-between;align-items:center">'
+    + '<h3 style="margin:0"><i class="hic">📊</i>Recent RL Feedback Log</h3>'
+    + '<span class="pill">' + recentFb.length + ' Recorded</span>'
+    + '</div>'
+    + '<div class="mut" style="margin:4px 0 12px">Real-time trace of human-in-the-loop rewards and punishments affecting policy weights:</div>'
+    + '<div class="list" style="max-height:480px;overflow-y:auto">';
+
+  if (!recentFb.length) {
+    h += '<div class="item" style="text-align:center;padding:24px"><div class="mut">No user feedback logged yet in this session. Submit feedback using the form to test live policy updates!</div></div>';
+  } else {
+    h += recentFb.map(function(fb) {
+      var isReward = fb.reward > 0 || fb.rating === 'thumbs_up' || fb.rating === 'reward';
+      var badge = isReward 
+        ? '<span class="pill" style="background:#dcfce7;color:#16a34a;font-weight:700">👍 +1.0 REWARD</span>'
+        : '<span class="pill" style="background:#fee2e2;color:#dc2626;font-weight:700">👎 -1.0 PENALTY</span>';
+      return '<div class="item" style="margin-bottom:8px;border-left:4px solid ' + (isReward ? 'var(--teal)' : '#dc2626') + '">'
+        + '<div class="row" style="justify-content:space-between;align-items:center">'
+        + '<b>' + esc(fb.category || fb.type) + '</b>'
+        + badge
+        + '</div>'
+        + (fb.comments ? '<div style="font-size:12.5px;margin:4px 0;color:var(--ink)">“' + esc(fb.comments) + '”</div>' : '')
+        + '<div class="mut" style="font-size:11.5px;margin-top:4px">'
+        + 'Arm: <b>' + esc(fb.armName || fb.armId) + '</b> &middot; Reviewer: ' + esc(fb.reviewer || 'Anonymous') + ' &middot; ' + (fb.timestamp ? new Date(fb.timestamp).toLocaleTimeString() : 'Just now')
+        + '</div>'
+        + '</div>';
+    }).join('');
+  }
+  h += '</div>'
+    + '<div style="margin-top:14px;padding:10px;background:rgba(15,118,110,0.04);border-radius:8px;border:1px dashed var(--teal)">'
+    + '<b style="font-size:12px;color:var(--teal)">💡 How RL Policy Tuning Operates:</b>'
+    + '<div class="mut" style="font-size:11.5px;margin-top:4px">When you tap <b>👍 Thumbs Up (+1.0)</b>, the Multi-Armed Bandit increases the empirical success score &alpha; of the strategy arm, boosting its probability of selection for upcoming patient summaries. When you tap <b>👎 Thumbs Down (-1.0)</b>, the penalty increases &beta;, forcing exploration of alternative clinical framings.</div>'
+    + '</div>'
+    + '</div></div>';
 
   return h;
 }

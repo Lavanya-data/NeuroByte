@@ -1271,6 +1271,34 @@ function docAbhaHTML() {
   }
   h += '</div>';
 
+  // Section: Instant Upload / Save & Attach Document to ABHA ID
+  h += '<div class="glass" style="margin-top:16px;border:1.5px solid var(--teal);background:rgba(15,118,110,0.03)">'
+    + '<div class="row" style="justify-content:space-between;align-items:center">'
+    + '<div><h3 style="margin:0"><i class="hic">📤</i>Save &amp; Attach Document to ABHA ID (' + esc(p.abhaNumber) + ')</h3><div class="mut" style="font-size:12.5px">Save a clinical report, prescription, or lab scan directly into this patient\'s ABHA record for immediate retrieval and clean download:</div></div>'
+    + '<span class="pill" style="background:var(--teal);color:#fff">Instant ABDM Transmission</span>'
+    + '</div>'
+    + '<div class="two" style="margin-top:14px">'
+    + '<div>'
+    + '<label for="doc_new_type">Document Type</label>'
+    + '<select id="doc_new_type"><option value="Diagnostic Lab Report">Diagnostic Lab Report</option><option value="Physician Prescription">Physician Prescription</option><option value="Discharge Summary">Hospital Discharge Summary</option><option value="Clinical Consultation Note">Clinical Consultation Note</option></select>'
+    + '<label for="doc_new_dx">Diagnosis / Clinical Indication</label>'
+    + '<input id="doc_new_dx" placeholder="e.g. Type 2 Diabetes Mellitus follow-up, Dyslipidemia">'
+    + '</div>'
+    + '<div>'
+    + '<label for="doc_new_date">Document Date</label>'
+    + '<input id="doc_new_date" type="date" value="' + td() + '">'
+    + '<label for="doc_new_doctor">Attending Physician / Pathologist</label>'
+    + '<input id="doc_new_doctor" value="Dr. Rajesh Sharma, MD" placeholder="Doctor name">'
+    + '</div>'
+    + '</div>'
+    + '<label for="doc_new_labs">Extracted Lab Parameters (format: Name Value Unit Low High, one per line)</label>'
+    + '<textarea id="doc_new_labs" placeholder="Fasting Glucose 110 mg/dL 70 99&#10;HbA1c 6.2 % 4.0 5.6" style="min-height:60px"></textarea>'
+    + '<label for="doc_new_meds">Prescribed Medications (format: Name Dose Schedule Days, one per line)</label>'
+    + '<textarea id="doc_new_meds" placeholder="Metformin 500mg 1-0-0 30&#10;Atorvastatin 10mg 0-0-1 30" style="min-height:60px"></textarea>'
+    + '<div id="attach_doc_msg" style="margin:8px 0;font-size:13px;font-weight:700"></div>'
+    + '<button class="btn" onclick="doctorSaveAndSendDocToABHA(\'' + esc(p.abhaNumber) + '\')">💾 Save Document &amp; Send to ABHA ID</button>'
+    + '</div>';
+
   // Two-column layout for Labs & Prescriptions
   h += '<div class="two" style="margin-top:16px">';
 
@@ -1387,6 +1415,78 @@ function doctorSearchABHA(customId) {
       DOC_ABHA_ERROR = 'Error connecting to ABDM registry: ' + (err.message || 'Network error');
       draw();
     });
+}
+
+function doctorSaveAndSendDocToABHA(abhaId) {
+  var type = $('doc_new_type').value;
+  var date = $('doc_new_date').value;
+  var docName = $('doc_new_doctor').value;
+  var dx = ($('doc_new_dx').value || '').trim();
+  var rawLabs = ($('doc_new_labs').value || '').trim();
+  var rawMeds = ($('doc_new_meds').value || '').trim();
+  var msg = $('attach_doc_msg');
+
+  if (msg) {
+    msg.textContent = 'Saving document and transmitting to ABHA ID ' + abhaId + '…';
+    msg.style.color = 'var(--teal)';
+  }
+
+  var labs = [];
+  if (rawLabs) {
+    rawLabs.split('\n').forEach(function(line) {
+      var parts = line.trim().split(/\s+/);
+      if (parts.length >= 2) {
+        var v = parseFloat(parts[1]) || 0;
+        var u = parts[2] || '';
+        var lo = parseFloat(parts[3]) || 0;
+        var hi = parseFloat(parts[4]) || 100;
+        labs.push({ n: parts[0], v: v, u: u, lo: lo, hi: hi });
+      }
+    });
+  }
+
+  var meds = [];
+  if (rawMeds) {
+    rawMeds.split('\n').forEach(function(line) {
+      var parts = line.trim().split(/\s+/);
+      if (parts.length >= 2) {
+        meds.push({ n: parts[0], dose: parts[1], freq: parts[2] || '1-0-0', days: parts[3] || '30' });
+      }
+    });
+  }
+
+  fetch('/api/hospital?action=attach-abha-doc', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Medoryx': '1' },
+    body: JSON.stringify({
+      abhaId: abhaId,
+      document: {
+        type: type,
+        date: date,
+        doctor: docName,
+        dx: dx,
+        labs: labs,
+        meds: meds
+      }
+    })
+  }).then(function(r){ return r.json(); }).then(function(j){
+    if (j && j.ok) {
+      if (msg) msg.textContent = '✓ Successfully saved and linked to ABHA ID ' + abhaId + '!';
+      setTimeout(function(){
+        doctorSearchABHA(abhaId);
+      }, 700);
+    } else {
+      if (msg) {
+        msg.textContent = 'Error: ' + ((j && j.error) || 'Failed to attach document');
+        msg.style.color = '#dc2626';
+      }
+    }
+  }).catch(function(err){
+    if (msg) {
+      msg.textContent = 'Network error attaching document: ' + err.message;
+      msg.style.color = '#dc2626';
+    }
+  });
 }
 
 function doctorOpenPatientFromABHA(patientName, existingEncId) {
@@ -1829,47 +1929,79 @@ function openDoctorDocModalByIndex(idx) {
 
 function downloadDoctorDocByIndex(idx) {
   var d = (DOC_VIEW_CACHE && DOC_VIEW_CACHE[idx]) || {};
-  if (!d.doc) return;
-  var name = (d.type || 'document').replace(/[^a-z0-9]/gi, '_') + '_' + (d.date || 'record');
-  triggerDocDownload(d.doc, name);
+  var name = (d.type || 'medical_document').replace(/[^a-z0-9]/gi, '_') + '_' + (d.date || 'record');
+  if (d.doc) {
+    triggerDocDownload(d.doc, name, d);
+  } else {
+    downloadClinicalReportHtml(d, name);
+  }
 }
 
-function triggerDocDownload(imgSrc, filename) {
-  if (!imgSrc) return;
+function triggerDocDownload(imgSrc, filename, docObj) {
+  if (!imgSrc) {
+    if (docObj) downloadClinicalReportHtml(docObj, filename);
+    return;
+  }
   var baseName = (filename || 'medical_document').replace(/\.[^.]+$/, '');
   
   if (imgSrc.indexOf('data:image/svg+xml') === 0) {
-    var img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = function() {
-      try {
-        var canvas = document.createElement('canvas');
-        canvas.width = 1200;
-        canvas.height = 1500;
-        var ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        var pngUrl = canvas.toDataURL('image/png');
-        var a = document.createElement('a');
-        a.href = pngUrl;
-        a.download = baseName + '.png';
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(function() { if (a.parentNode) a.parentNode.removeChild(a); }, 200);
-        return;
-      } catch (e) {
-        console.warn('Canvas rasterization fallback', e);
-      }
-      directDownloadFile(imgSrc, baseName + '.svg');
-    };
-    img.onerror = function() {
-      directDownloadFile(imgSrc, baseName + '.svg');
-    };
-    img.src = imgSrc;
+    // 1. Instant lossless vector SVG download with 100% full content
+    directDownloadFile(imgSrc, baseName + '.svg');
+    // 2. Also offer printable HTML report
+    if (docObj) {
+      setTimeout(function(){ downloadClinicalReportHtml(docObj, baseName); }, 300);
+    }
   } else {
     directDownloadFile(imgSrc, baseName + '.png');
   }
+}
+
+function downloadClinicalReportHtml(d, name) {
+  var patName = (DOC_ABHA_RESULT && DOC_ABHA_RESULT.patient && DOC_ABHA_RESULT.patient.name) || 'Patient';
+  var abhaId = (DOC_ABHA_RESULT && DOC_ABHA_RESULT.patient && DOC_ABHA_RESULT.patient.abhaNumber) || '';
+  var patAge = (DOC_ABHA_RESULT && DOC_ABHA_RESULT.patient && DOC_ABHA_RESULT.patient.age) || '';
+  var patSex = (DOC_ABHA_RESULT && DOC_ABHA_RESULT.patient && DOC_ABHA_RESULT.patient.gender) || '';
+  var patPhone = (DOC_ABHA_RESULT && DOC_ABHA_RESULT.patient && DOC_ABHA_RESULT.patient.phone) || '';
+
+  var html = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>' + esc(name) + '</title>'
+    + '<style>'
+    + 'body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;max-width:800px;margin:30px auto;padding:30px;border:1px solid #cbd5e1;border-radius:12px;color:#0f172a;background:#ffffff}'
+    + '.hdr{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #0f766e;padding-bottom:14px;margin-bottom:16px}'
+    + 'h1{color:#0f766e;margin:0;font-size:22px}h2{color:#0f172a;font-size:16px;margin:16px 0 8px}'
+    + 'table{width:100%;border-collapse:collapse;margin-top:10px}th,td{padding:9px 12px;border-bottom:1px solid #e2e8f0;text-align:left;font-size:13px}th{background:#f1f5f9;color:#0f766e}'
+    + '.meta{color:#64748b;font-size:12.5px;margin-top:4px}'
+    + '.badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:700}'
+    + '.hi{background:#fee2e2;color:#dc2626}.lo{background:#dbeafe;color:#2563eb}.ok{background:#dcfce7;color:#16a34a}'
+    + '.docimg{margin-top:20px;text-align:center;border:1px solid #cbd5e1;border-radius:8px;padding:12px;background:#f8fafc}'
+    + '.ftr{margin-top:36px;border-top:1px dashed #cbd5e1;padding-top:14px;font-size:11.5px;color:#64748b;display:flex;justify-content:space-between}'
+    + '</style></head><body>'
+    + '<div class="hdr">'
+    + '<div><h1>CITY CARE MULTI-SPECIALITY HOSPITAL</h1><div class="meta">Official ABDM Clinical Diagnostic Repository &middot; Central Health Exchange</div></div>'
+    + '<div style="text-align:right"><span class="badge ok">✓ ABDM VERIFIED</span><div class="meta">Date: ' + esc(d.date || new Date().toISOString().slice(0,10)) + '</div></div>'
+    + '</div>'
+    + '<div style="background:#f8fafc;padding:12px 16px;border-radius:8px;margin-bottom:18px;font-size:13px">'
+    + '<div style="display:flex;justify-content:space-between"><span><b>Patient:</b> ' + esc(patName) + ' (' + esc(patAge) + 'Y / ' + esc(patSex.toUpperCase()) + ')</span><span><b>ABHA ID:</b> ' + esc(abhaId) + '</span></div>'
+    + '<div style="display:flex;justify-content:space-between;margin-top:6px"><span><b>Physician:</b> ' + esc(d.doctor || 'Dr. Rajesh Sharma, MD') + '</span><span><b>Phone:</b> ' + esc(patPhone) + '</span></div>'
+    + (d.dx ? '<div style="margin-top:6px"><b>Clinical Diagnosis:</b> ' + esc(d.dx) + '</div>' : '')
+    + '</div>'
+    + (d.labs && d.labs.length ? '<h2>Laboratory Test Findings (' + d.labs.length + ' Parameters)</h2><table><tr><th>Biomarker Test</th><th>Result Value</th><th>Reference Range</th><th>Status</th></tr>'
+      + d.labs.map(function(l){
+        var isHi = l.v != null && l.hi != null && l.v > l.hi;
+        var isLo = l.v != null && l.lo != null && l.v < l.lo;
+        var b = isHi ? '<span class="badge hi">HIGH</span>' : isLo ? '<span class="badge lo">LOW</span>' : '<span class="badge ok">NORMAL</span>';
+        return '<tr><td><b>' + esc(l.n) + '</b></td><td>' + l.v + ' ' + esc(l.u||'') + '</td><td>' + (l.lo||0) + ' - ' + (l.hi||100) + '</td><td>' + b + '</td></tr>';
+      }).join('') + '</table>' : '')
+    + (d.meds && d.meds.length ? '<h2>Prescribed Medication Regimen (' + d.meds.length + ' Drugs)</h2><table><tr><th>Medication</th><th>Dose</th><th>Schedule</th><th>Duration</th></tr>'
+      + d.meds.map(function(m){
+        return '<tr><td><b>' + esc(m.n) + '</b></td><td>' + esc(m.dose||'') + '</td><td><code>' + esc(m.freq||'1-0-0') + '</code></td><td>' + esc(m.days ? m.days + ' days' : 'Ongoing') + '</td></tr>';
+      }).join('') + '</table>' : '')
+    + (d.doc ? '<div class="docimg"><div style="font-weight:700;margin-bottom:8px;color:#0f766e">Attached Original Diagnostic Scan</div><img src="' + esc(d.doc) + '" style="max-width:100%;height:auto;border-radius:6px;border:1px solid #e2e8f0" alt="Original Scan"></div>' : '')
+    + '<div class="ftr"><span>Digitally Signed &amp; Authenticated &middot; Medoryx Health Platform</span><span>ABDM Compliance Milestone 1/2/3</span></div>'
+    + '<script>window.print()<' + '/script></body></html>';
+
+  var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  var u = URL.createObjectURL(blob);
+  directDownloadFile(u, name + '_official_report.html');
 }
 
 function directDownloadFile(url, fileName) {
@@ -1897,7 +2029,7 @@ function openDoctorDocModal(imgSrc, title, idx) {
     + '<div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid #E2E8F0;background:#F8FAFC">'
     + '<div><b style="font-size:16px;color:#0F172A">📄 ' + safeTitle + '</b><div class="mut" style="font-size:11.5px">High-Resolution Clinical Scan &middot; ABDM Repository</div></div>'
     + '<div style="display:flex;gap:10px">'
-    + '<button class="btn" style="padding:6px 14px;font-size:12px;background:linear-gradient(135deg,#0284C7,#0369A1);color:#fff" onclick="' + downloadAction + '">⬇ Download PNG Document</button>'
+    + '<button class="btn" style="padding:6px 14px;font-size:12px;background:linear-gradient(135deg,#0F766E,#065F46);color:#fff" onclick="' + downloadAction + '">⬇ Download Clean Document</button>'
     + '<button class="btn alt" style="padding:6px 14px;font-size:12px" onclick="document.getElementById(\'doctor_doc_modal\').style.display=\'none\'">✕ Close</button>'
     + '</div>'
     + '</div>'

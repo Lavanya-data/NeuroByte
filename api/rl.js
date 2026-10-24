@@ -123,7 +123,8 @@ module.exports = async function handler(req, res) {
       arms: armStats,
       dpoPreferenceCount: state.dpoPreferences.length,
       dpoSamples: state.dpoPreferences.slice(-5),
-      recentHistory: state.history.slice(-10)
+      recentHistory: state.history.slice(-10),
+      recentFeedback: (state.feedbackHistory || []).slice(0, 10)
     });
   }
 
@@ -242,6 +243,59 @@ module.exports = async function handler(req, res) {
       success: true,
       dpoPreferenceCount: state.dpoPreferences.length,
       saved: preference
+    });
+  }
+
+  if (action === 'submit-user-feedback') {
+    const body = req.body || {};
+    const feedbackType = body.type || 'copilot'; // 'copilot', 'summary', 'adherence'
+    const rating = body.rating || 'thumbs_up';
+    const rewardVal = (rating === 'thumbs_up' || rating === 'reward') ? 1.0 : -1.0;
+    const category = body.category || 'Clinical Quality';
+    const comments = (body.comments || '').slice(0, 500);
+    const reviewer = (body.reviewer || 'Patient').slice(0, 60);
+
+    // Apply reward or punishment to the active RL Bandit arm
+    const armId = body.armId || 'arm_empathetic';
+    const arm = state.arms.find(a => a.id === armId) || state.arms[0];
+    arm.pulls += 1;
+    arm.rewards = Math.max(0, arm.rewards + rewardVal);
+    if (rewardVal > 0) arm.alpha += 1;
+    else arm.beta += 1;
+
+    state.totalEpisodes += 1;
+    state.totalRewards = Math.max(0, state.totalRewards + (rewardVal > 0 ? 1 : 0));
+
+    const entry = {
+      id: 'fb-' + Date.now().toString(36),
+      type: feedbackType,
+      rating,
+      reward: rewardVal,
+      category,
+      comments,
+      reviewer,
+      armId: arm.id,
+      armName: arm.name,
+      timestamp: new Date().toISOString()
+    };
+
+    state.feedbackHistory = state.feedbackHistory || [];
+    state.feedbackHistory.unshift(entry);
+    if (state.feedbackHistory.length > 50) state.feedbackHistory.pop();
+
+    return res.status(200).json({
+      success: true,
+      entry,
+      updatedArm: {
+        id: arm.id,
+        name: arm.name,
+        pulls: arm.pulls,
+        rewards: arm.rewards,
+        winRate: Math.round((arm.rewards / Math.max(1, arm.pulls)) * 100) + '%'
+      },
+      totalRewards: state.totalRewards,
+      totalEpisodes: state.totalEpisodes,
+      recentFeedback: state.feedbackHistory.slice(0, 10)
     });
   }
 

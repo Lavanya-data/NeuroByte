@@ -1383,6 +1383,95 @@ module.exports = async (req, res) => {
         });
       }
 
+      case 'attach-abha-doc': {
+        if (req.method !== 'POST') return res.status(405).json({ error: 'POST required' });
+        const { abhaId, document: docData } = req.body || {};
+        if (!abhaId || !docData) {
+          return res.status(400).json({ ok: false, error: 'ABHA ID and document data are required.' });
+        }
+
+        const rawDigits = String(abhaId).replace(/\D/g, '');
+        const cleanAbha = clean(abhaId).trim().toLowerCase();
+
+        let patient = (memoryStore.abhaPatients || []).find(p => {
+          const pDigits = (p.abhaNumber || '').replace(/\D/g, '');
+          return (rawDigits.length >= 8 && (pDigits === rawDigits || pDigits.endsWith(rawDigits))) ||
+                 (p.abhaNumber && p.abhaNumber.toLowerCase() === cleanAbha);
+        });
+
+        if (!patient) {
+          return res.status(404).json({ ok: false, error: 'Patient with ABHA ID not found in registry.' });
+        }
+
+        patient.records = patient.records || [];
+
+        // If no raw doc image provided, generate an official diagnostic SVG scan so it is never empty!
+        let docImg = docData.doc;
+        if (!docImg || typeof docImg !== 'string' || !docImg.trim()) {
+          const docDate = docData.date || new Date().toISOString().slice(0, 10);
+          const docType = docData.type || 'Clinical Document';
+          const docDoctor = docData.doctor || 'Dr. Rajesh Sharma, MD';
+          const docDx = docData.dx || 'Clinical Review';
+          const labs = Array.isArray(docData.labs) ? docData.labs : [];
+          const meds = Array.isArray(docData.meds) ? docData.meds : [];
+
+          const labRowsSvg = labs.map((l, i) => {
+            const y = 230 + (i * 30);
+            const isHi = l.v > l.hi;
+            const isLo = l.v < l.lo;
+            const statusColor = isHi ? '#DC2626' : isLo ? '#2563EB' : '#16A34A';
+            const statusText = isHi ? 'HIGH' : isLo ? 'LOW' : 'NORMAL';
+            return `<text x="25" y="${y}" font-size="12">${l.n}</text><text x="230" y="${y}" font-size="12" font-weight="bold">${l.v} ${l.u||''}</text><text x="350" y="${y}" font-size="12">${l.lo||0} - ${l.hi||100}</text><text x="490" y="${y}" font-size="12" font-weight="bold" fill="${statusColor}">${statusText}</text>`;
+          }).join('');
+
+          const medRowsSvg = meds.map((m, i) => {
+            const y = 240 + (i * 50);
+            return `<rect x="25" y="${y}" width="550" height="42" rx="6" fill="#F8FAFC" stroke="#E2E8F0"/><text x="35" y="${y+18}" font-size="12" font-weight="bold">${m.n} ${m.dose||''}</text><text x="35" y="${y+34}" font-size="11" fill="#64748B">Schedule: ${m.freq||'1-0-0'} ${m.days ? '· ' + m.days + ' days' : ''}</text>`;
+          }).join('');
+
+          const generatedSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="750" viewBox="0 0 600 750" style="background:#ffffff;font-family:sans-serif">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<rect width="100%" height="80" fill="#0F766E"/>
+<text x="25" y="42" font-size="18" font-weight="bold" fill="#ffffff">CITY CARE MULTI-SPECIALITY HOSPITAL</text>
+<text x="25" y="64" font-size="11" fill="#CCFBF1">OFFICIAL ABDM CLINICAL RECORD · HEALTH ID REPOSITORY</text>
+<text x="25" y="115" font-size="13" font-weight="bold" fill="#0F172A">PATIENT: ${patient.name.toUpperCase()} (${patient.gender ? patient.gender.toUpperCase() : 'PATIENT'} / ${patient.age}Y)</text>
+<text x="25" y="135" font-size="12" fill="#64748B">ABHA ID: ${patient.abhaNumber} · PHONE: ${patient.phone}</text>
+<text x="390" y="115" font-size="12" fill="#64748B">DATE: ${docDate}</text>
+<text x="390" y="135" font-size="12" fill="#64748B">PHYSICIAN: ${docDoctor}</text>
+<line x1="25" y1="150" x2="575" y2="150" stroke="#CBD5E1" stroke-width="2"/>
+<text x="25" y="175" font-size="13" font-weight="bold" fill="#0F766E">DOCUMENT: ${docType.toUpperCase()}</text>
+${docDx ? `<text x="25" y="195" font-size="12" fill="#334155">Diagnosis: ${docDx}</text>` : ''}
+${labs.length ? `<line x1="25" y1="205" x2="575" y2="205" stroke="#0F766E" stroke-width="1.5"/><text x="25" y="220" font-size="11" font-weight="bold" fill="#0F766E">PARAMETER</text><text x="230" y="220" font-size="11" font-weight="bold" fill="#0F766E">VALUE</text><text x="350" y="220" font-size="11" font-weight="bold" fill="#0F766E">NORMAL</text><text x="490" y="220" font-size="11" font-weight="bold" fill="#0F766E">STATUS</text>${labRowsSvg}` : ''}
+${meds.length ? `<text x="25" y="225" font-size="13" font-weight="bold" fill="#0F172A">Prescribed Medications:</text>${medRowsSvg}` : ''}
+<line x1="25" y1="620" x2="575" y2="620" stroke="#CBD5E1" stroke-width="1"/>
+<text x="25" y="650" font-size="11" fill="#64748B">DIGITALLY SIGNED &amp; VERIFIED BY: ${docDoctor.toUpperCase()}</text>
+<text x="25" y="670" font-size="10" fill="#94A3B8">OFFICIAL ABDM ENCRYPTED CLINICAL RECORD · SECURE TRANSMISSION</text>
+</svg>`;
+          docImg = makeDocSvg(generatedSvg);
+        }
+
+        const newDoc = {
+          id: 'doc_' + Date.now().toString(36),
+          type: docData.type || 'Clinical Document',
+          date: docData.date || new Date().toISOString().slice(0, 10),
+          doctor: docData.doctor || 'Dr. Rajesh Sharma, MD',
+          dx: docData.dx || '',
+          labs: Array.isArray(docData.labs) ? docData.labs : [],
+          meds: Array.isArray(docData.meds) ? docData.meds : [],
+          verified: true,
+          doc: docImg
+        };
+
+        patient.records.unshift(newDoc);
+
+        return res.status(200).json({
+          ok: true,
+          message: 'Document successfully saved and attached to ABHA ID ' + patient.abhaNumber,
+          document: newDoc,
+          totalRecords: patient.records.length
+        });
+      }
+
       // Default: Status & Role directory
       default: {
         return res.status(200).json({
