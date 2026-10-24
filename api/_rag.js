@@ -78,6 +78,8 @@ function chunkText(text, maxChars = 600, overlap = 80) {
 async function searchChunks({ query, tok, userId, limit = 4, threshold = 0.28 }) {
   const sb = getSbConfig();
   if (!sb || !query || typeof query !== 'string') return [];
+  // Strict tenant isolation: Never execute a global chunk search without a verified user scope
+  if (!userId && !tok) return [];
 
   // Generate question vector
   const queryEmb = await getEmbedding(query);

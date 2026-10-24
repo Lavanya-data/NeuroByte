@@ -8,6 +8,28 @@ const gerr = j => { const e = j && j.error; return e ? ': ' + String(e.status ||
 const S = require('./_safety');
 const fail = (res, s, code, error) => res.status(s).json({ error, code });
 
+const { clean } = require('./_gemini.js');
+
+async function getAuthUser(req) {
+  const url = clean(process.env.SUPABASE_URL).replace(/\/$/, '');
+  const key = clean(process.env.SUPABASE_ANON_KEY);
+  if (!url || !key || !req || !req.headers) return null;
+  const m = /^Bearer (.+)$/.exec(req.headers.authorization || '');
+  if (!m) return null;
+  const tok = m[1];
+  try {
+    const r = await fetch(`${url}/auth/v1/user`, {
+      headers: { apikey: key, Authorization: `Bearer ${tok}` },
+      signal: AbortSignal.timeout(8000)
+    });
+    if (!r.ok) return null;
+    const u = await r.json().catch(() => null);
+    return u && u.id ? { id: u.id, tok } : null;
+  } catch (e) {
+    return null;
+  }
+}
+
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return fail(res, 405, 'METHOD', 'POST only');
   if (!(await guard(req, res, 'ask', 30))) return;
@@ -17,28 +39,35 @@ module.exports = async (req, res) => {
   if (S.urgent(question)) return res.status(200).json({ answer: S.esc(S.pick(question)), ai: false, urgent: true }); // deterministic escalation, no AI call
   if (!KEY) return fail(res, 503, 'NO_KEY', 'AI backend is not configured (GEMINI_API_KEY missing).');
 
-  // Semantic RAG retrieval: check for relevant chunks in the user's vector store
+  // Semantic RAG retrieval: Strictly isolated per authenticated patient
   let ragSnippets = '';
   let sources = [];
-  const authHdr = req.headers ? req.headers.authorization || '' : '';
-  const m = /^Bearer (.+)$/.exec(authHdr);
-  const tok = m ? m[1] : '';
+  const authUser = await getAuthUser(req);
 
-  try {
-    const chunks = await searchChunks({ query: question.trim(), tok, limit: 4, threshold: 0.28 });
-    if (chunks && chunks.length > 0) {
-      sources = chunks.map(c => ({
-        type: (c.metadata && c.metadata.type) || 'Document',
-        date: (c.metadata && c.metadata.date) || '',
-        title: (c.metadata && c.metadata.title) || '',
-        similarity: Math.round((c.similarity || 0) * 100) / 100
-      }));
-      ragSnippets = chunks.map((c, i) =>
-        `[Source ${i + 1}: ${(c.metadata && c.metadata.type) || 'Record'}${c.metadata && c.metadata.date ? ' (' + c.metadata.date + ')' : ''}]\n${c.content}`
-      ).join('\n\n');
+  // If user is authenticated with an active cloud account, search ONLY their private chunks
+  if (authUser && authUser.id) {
+    try {
+      const chunks = await searchChunks({
+        query: question.trim(),
+        tok: authUser.tok,
+        userId: authUser.id,
+        limit: 4,
+        threshold: 0.28
+      });
+      if (chunks && chunks.length > 0) {
+        sources = chunks.map(c => ({
+          type: (c.metadata && c.metadata.type) || 'Document',
+          date: (c.metadata && c.metadata.date) || '',
+          title: (c.metadata && c.metadata.title) || '',
+          similarity: Math.round((c.similarity || 0) * 100) / 100
+        }));
+        ragSnippets = chunks.map((c, i) =>
+          `[Source ${i + 1}: ${(c.metadata && c.metadata.type) || 'Record'}${c.metadata && c.metadata.date ? ' (' + c.metadata.date + ')' : ''}]\n${c.content}`
+        ).join('\n\n');
+      }
+    } catch (e) {
+      // Non-fatal, gracefully fall back to results
     }
-  } catch (e) {
-    // Non-fatal, gracefully fall back to results
   }
 
   // Combine RAG chunks with high-level timeline context
