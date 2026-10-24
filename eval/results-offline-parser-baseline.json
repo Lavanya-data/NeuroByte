@@ -1,0 +1,111 @@
+[
+ {
+  "id": "D01",
+  "kind": "printed lab report",
+  "total": 26,
+  "ok": 26,
+  "extra": 0,
+  "mistakes": [],
+  "flagged": false,
+  "expectFlag": false
+ },
+ {
+  "id": "D02",
+  "kind": "printed lab report (diabetes panel)",
+  "total": 21,
+  "ok": 21,
+  "extra": 0,
+  "mistakes": [],
+  "flagged": false,
+  "expectFlag": false
+ },
+ {
+  "id": "D03",
+  "kind": "printed prescription",
+  "total": 14,
+  "ok": 14,
+  "extra": 0,
+  "mistakes": [],
+  "flagged": false,
+  "expectFlag": false
+ },
+ {
+  "id": "D04",
+  "kind": "printed prescription (5 medicines)",
+  "total": 22,
+  "ok": 22,
+  "extra": 0,
+  "mistakes": [],
+  "flagged": false,
+  "expectFlag": false
+ },
+ {
+  "id": "D05",
+  "kind": "missing units",
+  "total": 11,
+  "ok": 5,
+  "extra": 0,
+  "mistakes": [
+   "Hemoglobin.value: expected 11.2, got \"(missing)\"",
+   "Hemoglobin.low: expected 12, got \"(missing)\"",
+   "Hemoglobin.high: expected 15.5, got \"(missing)\"",
+   "Hemoglobin.name: expected \"Hemoglobin\", got \"(missing)\"",
+   "Platelets.value: expected 250, got 25",
+   "Platelets.unit: expected \"\", got \"0\""
+  ],
+  "flagged": false,
+  "expectFlag": true
+ },
+ {
+  "id": "D06",
+  "kind": "missing reference ranges",
+  "total": 11,
+  "ok": 5,
+  "extra": 0,
+  "mistakes": [
+   "Hemoglobin.value: expected 11.2, got \"(missing)\"",
+   "Hemoglobin.unit: expected \"g/dL\", got \"(missing)\"",
+   "Hemoglobin.name: expected \"Hemoglobin\", got \"(missing)\"",
+   "Sodium.value: expected 138, got \"(missing)\"",
+   "Sodium.unit: expected \"mmol/L\", got \"(missing)\"",
+   "Sodium.name: expected \"Sodium\", got \"(missing)\""
+  ],
+  "flagged": false,
+  "expectFlag": true
+ },
+ {
+  "id": "D07",
+  "kind": "blurry photo of D01",
+  "skipped": "image-only: parser cannot read images"
+ },
+ {
+  "id": "D08",
+  "kind": "multi-page PDF (lab + prescription)",
+  "total": 39,
+  "ok": 39,
+  "extra": 0,
+  "mistakes": [],
+  "flagged": false,
+  "expectFlag": false
+ },
+ {
+  "id": "D09",
+  "kind": "bilingual (Telugu/Hindi headings)",
+  "total": 11,
+  "ok": 11,
+  "extra": 0,
+  "mistakes": [],
+  "flagged": false,
+  "expectFlag": false
+ },
+ {
+  "id": "D10",
+  "kind": "decimal-heavy lab report",
+  "total": 21,
+  "ok": 21,
+  "extra": 0,
+  "mistakes": [],
+  "flagged": false,
+  "expectFlag": false
+ }
+]

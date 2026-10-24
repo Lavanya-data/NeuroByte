@@ -1,0 +1,5 @@
+City Diagnostics Lab
+Date: 01/07/2026
+Patient: Test Patient (synthetic)
+Hemoglobin 11.2 (12.0-15.5)
+Platelets 250 (150-410)

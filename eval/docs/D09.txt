@@ -1,0 +1,5 @@
+ప్రయోగశాల నివేదిక / प्रयोगशाला रिपोर्ट
+Date: 14/08/2026
+Patient: Test Patient (synthetic)
+Hemoglobin 10.4 g/dL (12.0-15.5)
+Vitamin D 18 ng/mL (30-100)
