@@ -3,7 +3,7 @@
 const { clean } = require('./_gemini.js');
 
 const KEY = () => clean(process.env.GEMINI_API_KEY);
-const EMBED_MODELS = ['gemini-embedding-001', 'gemini-embedding-2', 'text-embedding-004'];
+const EMBED_MODELS = ['text-embedding-004', 'embedding-001'];
 
 /**
  * Get embedding vector (768 floats) for a single string.
