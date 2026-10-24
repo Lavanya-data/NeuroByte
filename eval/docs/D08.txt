@@ -1,0 +1,15 @@
+City Diagnostics Lab
+Date: 12/03/2026
+Patient: Test Patient (synthetic)
+Hemoglobin 11.2 g/dL (12.0-15.5)
+HbA1c 6.1 % (4.0-5.6)
+LDL Cholesterol 128 mg/dL (0-100)
+Vitamin D 34 ng/mL (30-100)
+TSH 2.4 mIU/L (0.4-4.0)
+City Diagnostics Lab
+Date: 15/03/2026
+Patient: Test Patient (synthetic)
+Diagnosis: Prediabetes, mild anemia
+Tab Metformin 500mg 1-0-1 x 30 days
+Tab Ferrous 100mg 0-1-0 x 60 days
+Tab Atorvastatin 10mg 0-0-1 x 30 days

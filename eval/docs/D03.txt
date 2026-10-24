@@ -1,0 +1,7 @@
+City Diagnostics Lab
+Date: 15/03/2026
+Patient: Test Patient (synthetic)
+Diagnosis: Prediabetes, mild anemia
+Tab Metformin 500mg 1-0-1 x 30 days
+Tab Ferrous 100mg 0-1-0 x 60 days
+Tab Atorvastatin 10mg 0-0-1 x 30 days

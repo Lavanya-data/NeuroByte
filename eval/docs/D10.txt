@@ -1,0 +1,7 @@
+City Diagnostics Lab
+Date: 03/09/2026
+Patient: Test Patient (synthetic)
+TSH 0.45 mIU/L (0.4-4.0)
+Creatinine 1.05 mg/dL (0.6-1.3)
+Potassium 4.85 mmol/L (3.5-5.1)
+Total Cholesterol 199.5 mg/dL (0-200)

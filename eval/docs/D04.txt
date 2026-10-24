@@ -1,0 +1,9 @@
+City Diagnostics Lab
+Date: 20/06/2026
+Patient: Test Patient (synthetic)
+Diagnosis: Hypertension
+Tab Amlodipine 5mg 1-0-0 x 90 days
+Tab Telmisartan 40mg 1-0-0 x 90 days
+Tab Aspirin 75mg 0-0-1 x 90 days
+Tab Pantoprazole 40mg 1-0-0 x 30 days
+Tab Paracetamol 650mg 1-1-1 x 5 days

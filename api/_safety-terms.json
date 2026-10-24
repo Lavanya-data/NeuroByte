@@ -1,0 +1,60 @@
+{
+"urgent": [
+"chest (pain|tightness|pressure)",
+"(can'?t|cannot|unable to) breathe",
+"difficulty breathing|short(ness)? of breath|breathless",
+"faint(ed|ing)|unconscious|passed out|collapsed",
+"\\bstroke\\b|face (is )?droop|slurred speech|sudden (weakness|numbness)",
+"severe bleeding|bleeding (heavily|a lot)|vomit(ing)? blood|cough(ing)? (up )?blood",
+"heart attack|cardiac arrest",
+"my (blood )?(sugar|glucose) (is|feels|has dropped|just dropped|dropped)( \\w+)? low|(sugar|glucose) (crashed|dropped (very|too) low)|severe hypoglyc|hypoglyc\\w* (symptoms|attack)",
+"seizure|convulsion",
+"suicid|kill myself|end my life|want to die|self[- ]harm",
+"overdose|took too many (pills|tablets)",
+"anaphyla|swelling of (the )?(face|throat)|severe allergic",
+"सीने में (दर्द|जकड़न)",
+"सांस (लेने )?में (तकलीफ|दिक्कत|कठिनाई)",
+"बेहोश",
+"खून की उल्टी|उल्टी में खून",
+"मिर्गी|दौरा पड़|दौरे पड़|(दिल|हार्ट) का दौरा|हार्ट अटैक",
+"आत्महत्या|मरना चाहत|जान दे",
+"ज़हर खा|जहर खा|ओवरडोज",
+"ఛాతీ నొప్పి|ఛాతి నొప్పి|గుండెల్లో నొప్పి",
+"శ్వాస (తీసుకోవడం )?(కష్టం|ఇబ్బంది)|ఊపిరి (ఆడ|తీసుకోలేక)",
+"స్పృహ (తప్పి|కోల్పో)|మూర్ఛ",
+"రక్తం (వాంతి|కక్కు)|రక్తస్రావం",
+"ఆత్మహత్య|చనిపోవాలని|చావాలని",
+"విషం తాగ|ఓవర్డోస్",
+"గుండెపోటు|హార్ట్ ఎటాక్"
+],
+"unsafe": [
+"you are (perfectly |completely |totally )?(healthy|safe|fine|normal)",
+"nothing to (worry|be concerned) about",
+"no need (to|for) (see|visit|consult|worry)",
+"(stop|discontinue|skip|reduce|increase|double) (taking )?(your|the) (medicine|medication|dose|tablet|pill)",
+"you (have|don'?t have|do not have) (diabetes|cancer|anemia|anaemia|thyroid)",
+"you can (safely )?(stop|skip)",
+"आप (पूरी तरह )?(स्वस्थ|ठीक) हैं",
+"चिंता (करने )?की (कोई )?(बात|जरूरत|ज़रूरत) नहीं",
+"डॉक्टर (को दिखाने )?की (कोई )?(जरूरत|ज़रूरत) नहीं",
+"दवा(ई)? (बंद|छोड़) (कर )?(दें|दो|दीजिए)",
+"खुराक (बढ़ा|घटा|कम कर)",
+"आपको (मधुमेह|डायबिटीज|कैंसर|एनीमिया) है",
+"మీరు (పూర్తిగా )?ఆరోగ్యంగా ఉన్నారు",
+"ఆందోళన (చెందాల్సిన పని|అవసరం) లేదు",
+"డాక్టర్ను కలవాల్సిన అవసరం లేదు",
+"మందు(లు)? (ఆపండి|మానేయండి|ఆపేయండి)",
+"డోస్ (పెంచండి|తగ్గించండి)",
+"మీకు (షుగర్|డయాబెటిస్|క్యాన్సర్|రక్తహీనత) ఉంది"
+],
+"esc": [
+"This may be an emergency. Call 112 now (or your local emergency number) or go to the nearest hospital. Do not wait for an online answer. If you are thinking of harming yourself, call Tele-MANAS 14416 or 112 right away.",
+"यह आपातकाल हो सकता है। अभी 112 पर कॉल करें या नज़दीकी अस्पताल जाएँ। ऑनलाइन जवाब का इंतज़ार न करें। यदि आप खुद को नुकसान पहुँचाने के बारे में सोच रहे हैं, तो तुरंत Tele-MANAS 14416 या 112 पर कॉल करें।",
+"ఇది అత్యవసర పరిస్థితి కావచ్చు. వెంటనే 112కు కాల్ చేయండి లేదా సమీప ఆసుపత్రికి వెళ్లండి. ఆన్‌లైన్ సమాధానం కోసం వేచి ఉండకండి. మీకు మీరే హాని చేసుకోవాలనే ఆలోచన ఉంటే, వెంటనే Tele-MANAS 14416 లేదా 112కు కాల్ చేయండి."
+],
+"safe": [
+"I cannot say that safely. Please discuss your results with your doctor, who can interpret them with your symptoms and history.",
+"मैं यह सुरक्षित रूप से नहीं कह सकता। कृपया अपने परिणामों के बारे में डॉक्टर से बात करें, जो आपके लक्षणों और इतिहास को देखकर उन्हें समझा सकते हैं।",
+"నేను దీన్ని సురక్షితంగా చెప్పలేను. దయచేసి మీ ఫలితాల గురించి డాక్టర్‌తో మాట్లాడండి; మీ లక్షణాలు, చరిత్రను బట్టి వారు వాటిని అర్థం చేసుకోగలరు."
+]
+}
